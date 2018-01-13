@@ -12,6 +12,7 @@ class RightHandReviewer(Reviewer):
 
         # Copy Reviewer's default shortcuts
         self.shortcuts = self._shortcutKeys()
+
         # Add our own shortcuts to the default ones
         self.shortcuts += [
             ("j", lambda: self._answerCard(1)),
@@ -20,6 +21,7 @@ class RightHandReviewer(Reviewer):
             (";", lambda: self._answerCard(4)),
         ]
 
+        # Replace default methods with our own.
         self._shortcutKeys = self._shortcutKeysNew
         self._answerCard = self._answerCardNew
 
