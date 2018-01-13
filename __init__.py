@@ -3,9 +3,31 @@
 
 from aqt import mw
 from aqt.qt import *
+from aqt.reviewer import Reviewer
 import copy
 
-def _answerCardNew(self, ease):
+class RightHandReviewer(Reviewer):
+    def __init__(self, mw):
+        super().__init__(mw)
+
+        # Copy Reviewer's default shortcuts
+        self.shortcuts = self._shortcutKeys()
+        # Add our own shortcuts to the default ones
+        self.shortcuts += [
+            ("j", lambda: self._answerCard(1)),
+            ("k", lambda: self._answerCard(2)),
+            ("l", lambda: self._answerCard(3)),
+            (";", lambda: self._answerCard(4)),
+        ]
+
+        self._shortcutKeys = self._shortcutKeysNew
+        self._answerCard = self._answerCardNew
+
+    def _shortcutKeysNew(self):
+        """ Return our shortcuts rather than the default ones. """
+        return self.shortcuts
+
+    def _answerCardNew(self, ease):
         """
         Modified copy of aqt.Reviewer._answerCard.
 
@@ -24,25 +46,5 @@ def _answerCardNew(self, ease):
         self.mw.autosave()
         self.nextCard()
 
-# Copy main window's Reviewer member
-r = copy.copy(mw.reviewer)
-
-# Copy Reviewer's default shortcuts
-r.shortcuts = mw.reviewer._shortcutKeys()
-
-# Add our own shortcuts to the default ones
-r.shortcuts += [
-    ("j", lambda: r._answerCard(r, 1)),
-    ("k", lambda: r._answerCard(r, 2)),
-    ("l", lambda: r._answerCard(r, 3)),
-    (";", lambda: r._answerCard(r, 4)),
-]
-
-# Return our shortcuts rather than the default ones.
-r._shortcutKeys = lambda: r.shortcuts
-
-# Use our modified _answerCard method to bypass showing the card's back.
-r._answerCard = _answerCardNew
-
 # Use our modified Reviewer rather than the default one.
-mw.reviewer = r
+mw.reviewer = RightHandReviewer(mw)
