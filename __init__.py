@@ -2,18 +2,16 @@
 # Initial Commit - January 13th, 2018
 
 from aqt import mw
-from aqt.qt import *
 from aqt.reviewer import Reviewer
-import copy
 
 class RightHandReviewer(Reviewer):
     def __init__(self, mw):
         super().__init__(mw)
 
-        # Copy Reviewer's default shortcuts
+        # Copy Reviewer's default shortcuts.
         self.shortcuts = self._shortcutKeys()
 
-        # Add our own shortcuts to the default ones
+        # Add our own shortcuts to the default ones.
         self.shortcuts += [
             ("j", lambda: self._answerCard(1)),
             ("k", lambda: self._answerCard(2)),
