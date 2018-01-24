@@ -26,18 +26,11 @@ class RightHandReviewer(Reviewer):
     def _answerCard(self, ease):
         """
         Modified copy of aqt.Reviewer._answerCard.
-
         Allows cards to be answered without first showing the back.
         Also selects the nearest difficulty level to the users selection.
         """
-        "Reschedule card and show next."
         if self.mw.state != "review":
-            # showing resetRequired screen; ignore key
             return
-#        if self.state != "answer":
-#            return
-#        if self.mw.col.sched.answerButtons(self.card) < ease:
-#            return
         ease = min(ease, self.mw.col.sched.answerButtons(self.card))
         self.mw.col.sched.answerCard(self.card, ease)
         self._answeredIds.append(self.card.id)
