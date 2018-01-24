@@ -5,29 +5,25 @@ from aqt import mw
 from aqt.reviewer import Reviewer
 
 class RightHandReviewer(Reviewer):
+    # Keep Python from complaining that self.shortcuts doesn't exist. 
+    shortcuts = []
+
     def __init__(self, mw):
         super().__init__(mw)
 
-        # Copy Reviewer's default shortcuts.
-        self.shortcuts = self._shortcutKeys()
-
-        # Add our own shortcuts to the default ones.
-        self.shortcuts += [
+        # Reviewer's default shortcuts, plus our own.
+        self.shortcuts = super()._shortcutKeys() + [
             ("j", lambda: self._answerCard(1)),
             ("k", lambda: self._answerCard(2)),
             ("l", lambda: self._answerCard(3)),
             (";", lambda: self._answerCard(4)),
         ]
 
-        # Replace default methods with our own.
-        self._shortcutKeys = self._shortcutKeysNew
-        self._answerCard = self._answerCardNew
-
-    def _shortcutKeysNew(self):
+    def _shortcutKeys(self):
         """ Return our shortcuts rather than the default ones. """
         return self.shortcuts
 
-    def _answerCardNew(self, ease):
+    def _answerCard(self, ease):
         """
         Modified copy of aqt.Reviewer._answerCard.
 
