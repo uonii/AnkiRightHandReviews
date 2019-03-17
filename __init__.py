@@ -12,4 +12,10 @@ def newShortcutKeys(self, _old):
         (";", lambda: self._answerCard(4)),
     ]
 
+def newAnswerCard(self, ease, _old):
+    if self.state == "question":
+        self.state = 'answer'
+    _old(self, min(self.mw.col.sched.answerButtons(self.card), ease))
+
 Reviewer._shortcutKeys = wrap(Reviewer._shortcutKeys, newShortcutKeys, "around")
+Reviewer._answerCard = wrap(Reviewer._answerCard, newAnswerCard, "around")
