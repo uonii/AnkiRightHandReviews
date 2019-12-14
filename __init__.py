@@ -10,6 +10,7 @@ def newShortcutKeys(self, _old):
         ("k", lambda: self._answerCard(2)),
         ("l", lambda: self._answerCard(3)),
         (";", lambda: self._answerCard(4)),
+        ("z", lambda: mw.onUndo()),
     ]
 
 def newAnswerCard(self, ease, _old):
